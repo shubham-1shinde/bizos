@@ -1,0 +1,31 @@
+# dependencies
+node_modules/
+tmp/
+# logs
+logs
+*.log
+npm-debug.log*
+
+# environment variables
+.env
+
+# runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# coverage
+coverage/
+
+# build files
+dist/
+build/
+
+# misc
+.DS_Store
+.vscode/
+.idea/
+
+# uploads (if storing files locally)
+uploads/
