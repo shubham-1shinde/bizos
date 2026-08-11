@@ -21,6 +21,7 @@ class ForecastRequest(BaseModel):
     type: Optional[str] = "REVENUE"
     period: Optional[str] = "Next 6 Months"
     companyId: Optional[str] = None
+    historicalData: Optional[List[float]] = None
 
 class SimulationRequest(BaseModel):
     scenarioType: str
@@ -37,7 +38,13 @@ def health_check():
 
 @app.post("/forecast")
 def forecast_endpoint(req: ForecastRequest):
-    return generate_forecast(forecast_type=req.type, period=req.period)
+    return generate_forecast(
+        forecast_type=req.type or "REVENUE",
+        period=req.period or "Next 6 Months",
+        company_id=req.companyId,
+        historical_data=req.historicalData
+    )
+
 
 @app.post("/predict-demand")
 def demand_endpoint(products: List[Dict[str, Any]]):
