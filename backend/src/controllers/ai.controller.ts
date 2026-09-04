@@ -51,7 +51,7 @@ export const handleAIChat = async (req: AuthRequest, res: Response) => {
       const response = await axios.post(`${env.AI_SERVICE_URL}/analyze`, {
         question: message,
         context: contextData,
-      }, { timeout: 15000 });
+      }, { timeout: 150000 });
       reply = response.data.reply;
     } catch (err) {
       // Rule-based fallback business intelligence context response
