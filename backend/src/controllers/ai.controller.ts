@@ -48,7 +48,7 @@ export const handleAIChat = async (req: AuthRequest, res: Response) => {
     let reply = '';
     try {
       // Call Python FastAPI AI Service
-      const response = await axios.post(`${env.AI_SERVICE_URL}/analyze`, {
+      const response = await axios.post(`${process.env.AI_SERVICE_URL}/analyze`, {
         question: message,
         context: contextData,
       }, { timeout: 150000 });
