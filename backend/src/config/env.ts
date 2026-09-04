@@ -16,7 +16,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 
 dotenv.config({
-  path: path.join(__dirname, '../../../.env'),
+  path: path.join(__dirname, '../../.env'),
 });
 
 const MONGODB_URI = process.env.MONGODB_URI;
