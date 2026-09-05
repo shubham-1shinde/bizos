@@ -52,12 +52,12 @@ export const handleAIChat = async (req: AuthRequest, res: Response) => {
         question: message,
         context: contextData,
       });
-      console.log('AI Service Response:', response);
+      //console.log('AI Service Response:', response);
       reply = response.data.reply;
-      console.log('AI Service Response Reply:', reply);
+      //console.log('AI Service Response Reply:', reply);
     } catch (err) {
       // Rule-based fallback business intelligence context response
-      console.log('AI Service Error:', err);
+      //console.log('AI Service Error:', err);
       const lower = message.toLowerCase();
       if (lower.includes('profit')) {
         reply = `Based on your recent financial data, gross profit margin is at 45.2%. Expenses in utility & inventory storage caused a minor 3.1% dip last month.`;
