@@ -53,6 +53,7 @@ export const handleAIChat = async (req: AuthRequest, res: Response) => {
         context: contextData,
       }, { timeout: 150000 });
       reply = response.data.reply;
+      console.log('AI Service Response:', reply);
     } catch (err) {
       // Rule-based fallback business intelligence context response
       const lower = message.toLowerCase();
