@@ -51,11 +51,13 @@ export const handleAIChat = async (req: AuthRequest, res: Response) => {
       const response = await axios.post(`${process.env.AI_SERVICE_URL}/analyze`, {
         question: message,
         context: contextData,
-      }, { timeout: 150000 });
+      });
+      console.log('AI Service Response:', response);
       reply = response.data.reply;
-      console.log('AI Service Response:', reply);
+      console.log('AI Service Response Reply:', reply);
     } catch (err) {
       // Rule-based fallback business intelligence context response
+      console.log('AI Service Error:', err);
       const lower = message.toLowerCase();
       if (lower.includes('profit')) {
         reply = `Based on your recent financial data, gross profit margin is at 45.2%. Expenses in utility & inventory storage caused a minor 3.1% dip last month.`;
