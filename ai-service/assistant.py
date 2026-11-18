@@ -1,9 +1,11 @@
 import os
 import logging
 from google import genai
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = logging.getLogger(__name__)
-
 
 def _load_gemini_api_key():
     api_key = os.environ.get("GEMINI_API_KEY")
