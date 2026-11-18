@@ -8,17 +8,20 @@ load_dotenv()
 logger = logging.getLogger(__name__)
 
 def _load_gemini_api_key():
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = os.getenv("GEMINI_API_KEY")
 
     if not api_key:
         logger.error("GEMINI_API_KEY is not configured")
         return None
 
+    logger.info("Gemini API key loaded successfully")
     return api_key.strip()
 
 
 def _query_gemini(question: str, context: dict, api_key: str):
     try:
+        logger.info("Initializing Gemini client")
+
         client = genai.Client(api_key=api_key)
 
         sales_cnt = context.get("salesCount", 0)
@@ -41,22 +44,28 @@ User Question:
 {question}
 """
 
+        logger.info("Sending business question to Gemini API")
+
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=prompt
         )
 
         if response and response.text:
+            logger.info("Gemini response generated successfully")
             return response.text.strip()
 
+        logger.warning("Gemini returned an empty response")
         return None
 
-    except Exception as e:
-        logger.exception("Gemini request failed")
+    except Exception:
+        logger.exception("Gemini API request failed")
         return None
 
 
 def _rule_based_fallback(question: str, context: dict):
+    logger.info("Executing rule-based fallback")
+
     q_lower = question.lower()
 
     sales_cnt = context.get("salesCount", 0)
@@ -82,18 +91,33 @@ def _rule_based_fallback(question: str, context: dict):
 
 
 def analyze_business_question(question: str, context: dict):
+    logger.info("Starting business question analysis")
+
     api_key = _load_gemini_api_key()
 
     if api_key:
+        logger.info("Using Gemini AI for business analysis")
+
         reply = _query_gemini(question, context, api_key)
 
         if reply:
+            logger.info("Business analysis completed using Gemini")
+
             return {
                 "reply": reply,
                 "source": "gemini"
             }
 
+        logger.warning("Gemini unavailable. Switching to rule-based fallback")
+
+    else:
+        logger.warning("Gemini API key unavailable. Using rule-based fallback")
+
+    reply = _rule_based_fallback(question, context)
+
+    logger.info("Business analysis completed using rule-based fallback")
+
     return {
-        "reply": _rule_based_fallback(question, context),
+        "reply": reply,
         "source": "rule_engine"
     }

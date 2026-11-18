@@ -45,7 +45,6 @@ def forecast_endpoint(req: ForecastRequest):
         historical_data=req.historicalData
     )
 
-
 @app.post("/predict-demand")
 def demand_endpoint(products: List[Dict[str, Any]]):
     return predict_demand_scores(products)
